@@ -1,0 +1,55 @@
+body {
+  background: #2BC0E4;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #EAECC6, #2BC0E4);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #EAECC6, #2BC0E4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.logo {
+  width: 30%;
+}
+
+.buttonMap {
+  background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);  background-blend-mode: screen;
+  border-radius: 12px;
+  padding: 9px 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.otherButtons {
+  background-color: #89CFCB;
+  border-radius: 12px;
+  padding: 9px 20px;
+  font-size: 20px;
+  font-weight: bold;
+  border:  #89CFCB;
+  color: white; 
+  margin-top:10px;
+}
+
+.seeRoute {
+  background-color: #89CFCB;
+  border:  #89CFCB;
+  padding: 8px 8px;
+  border-radius: 12px; 
+  color: white;
+  font-size: 15px;
+}
+.form-group {
+  margin-bottom:5px;
+}
+
+#map {
+  height:500px;
+  width: 350%;
+}
+
+#map-canvas {
+  height:600px;
+  width: 350%;
+}
+
+#mode {
+  margin-top: 10px;
+  margin-left: 10px;
+}
