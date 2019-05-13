@@ -1,7 +1,7 @@
-# **Project 1 GPS Track**
+# **Project 4 GPS Track**
 
 ### By Camila White Romero - cwhiter@eafit.edu.co
-
+### Access the app in: https://project4gps.tk
 # 1. Description
 
 The app lets the user keep track of his location and then see the route he made. 
@@ -251,8 +251,7 @@ docker-compose build
 docker-compose up -d
 ```
 
-Access the app via: https://ec2-3-81-154-255.compute-1.amazonaws.com
 
 After checking that the previous link works, proceed with getting a domain in [dot.tk](http://www.dot.tk/en/index.html?lang=en) and asign the static IP Address to the domain.
 
-Access the app in: https://project1gps.tk
+Access the app in: https://project4gps.tk
