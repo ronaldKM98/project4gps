@@ -6,6 +6,8 @@ const exphbs = require('express-handlebars');
 const path = require('path');
 const methodOverride = require('method-override');
 const session = require('express-session');
+const expressValidator = require('express-validator');
+const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const passport = require('passport');
 
@@ -47,6 +49,7 @@ app.use(session({ //Save users data through a session
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+app.use(expressValidator())
 
 /**
  * Global Variables
