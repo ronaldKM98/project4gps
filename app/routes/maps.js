@@ -2,6 +2,9 @@
  * Controller for everything related with points and routes
  */
 const router = require('express').Router();
+global.fetch = require('node-fetch');
+const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+const usersRoute = require('./users.js');
 
 const io = require('../app');
 
@@ -23,6 +26,18 @@ const { isAuthenticated } = require('../helpers/auth');
  */
 let lastRouteId = "";
 
+/**
+ * CODIGO QUE PUEDE SER ELIMINADO   
+ */
+var cognitoUser = usersRoute.getCognitoUser();
+console.log(cognitoUser);
+/**
+ * TERMINA EL CODIGO QUE PUEDE SER ELIMINADO    
+ */
+
+
+
+ 
 /**
  * domain/maps , and sends the user id to obtain route name 
  */
