@@ -29,8 +29,8 @@ let lastRouteId = "";
 /**
  * CODIGO QUE PUEDE SER ELIMINADO   
  */
-var cognitoUser = usersRoute.getCognitoUser();
-console.log(cognitoUser);
+// var cognitoUser = usersRoute.getCognitoUser();
+// console.log(cognitoUser);
 /**
  * TERMINA EL CODIGO QUE PUEDE SER ELIMINADO    
  */
