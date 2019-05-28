@@ -27,7 +27,7 @@ AWS.config.update(awsConfig);
 
 let docClient = new AWS.DynamoDB.DocumentClient();
 
-export function put (tableName, json) {
+/*export function put (tableName, json) {
   console.log("asdas");
   var params = {
     TableName: tableName,
@@ -38,6 +38,6 @@ export function put (tableName, json) {
     if (err) console.log(err);
     else console.log(data);
   });
-}
+}*/
 
 module.exports = docClient;
