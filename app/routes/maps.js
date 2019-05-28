@@ -72,7 +72,8 @@ io.on('connection', function (socket) {
  * domain/allRoutes , and sends the routes that the user created to display them 
  */
 router.get('/allRoutes', isAuthenticated, async (req, res) => {
-    const route = await Route.find({ userId: req.user.id }).sort({ date: 'desc' });
+    //const route = await Route.find({ userId: req.user.id }).sort({ date: 'desc' });
+    const route = await Route.find();
     res.render('maps/allRoutes', { route });
 });
 

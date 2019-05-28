@@ -3,32 +3,37 @@
  */
 const router = require('express').Router();
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
-const AWS = require('aws-sdk');
+//const AWS = require('aws-sdk');
 //const request = require('request');
 //const jwkToPem = require('jwk-to-pem');
 //const jwt = require('jsonwebtoken');
 global.fetch = require('node-fetch');
-const config = require('../config.json');
-
+//const config = require('../config.json');
 
 /**
  * Global variables
  */
 const User = require('../models/User');
-const poolData = { 
+
+/** const poolData = { 
   UserPoolId: config.cognito.userPoolId,
   ClientId: config.cognito.clientId
-};
-const poolRegion = 'us-east-2';
+};*/
+
+/** const poolRegion = 'us-east-2';
 const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 var cognitoUser;
 
+
 /**
  * Get cognitoUser function
- */
+ 
 function getCognitoUser() {
   return cognitoUser;
-}
+}*/
+
+var userPool = require('../helpers/cognito');
+
 /**
  * domain/signup
  */
@@ -65,7 +70,7 @@ router.post('/signup', async (req, res) => {
   attributeList.push(nameAttributes);
   attributeList.push(usernameAttributes);
 
-  var cognitoUser = "";
+  var cognitoUser;
   userPool.signUp(email, password, attributeList, null, (err, data) => {
     if(err) {
       console.error(err);
@@ -73,7 +78,7 @@ router.post('/signup', async (req, res) => {
       res.redirect('/signup');
     } else {
       cognitoUser = data.user;
-      console.log('email is ' + cognitoUser.getUsername());
+      // console.log('email is ' + cognitoUser.getUsername());
       req.flash('success_msg', 'Confirm your email, check in spam');
       res.redirect('/login');
     }
@@ -100,15 +105,12 @@ router.post('/login', (req, res) => {
 
   const authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
 
-  const userDetails = {
+  const userData = {
     Username: email,
     Pool: userPool
   }
 
-  cognitoUser = new AmazonCognitoIdentity.CognitoUser(userDetails);
-  if(cognitoUser != null) {
-    console.log("SE HA LOGEADO");
-  }
+  cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
 
   cognitoUser.authenticateUser(authenticationDetails, {
     onSuccess: result => {
@@ -118,7 +120,10 @@ router.post('/login', (req, res) => {
       console.log("id token " + idToken + '\n');
       var refreshToken = result.getRefreshToken().getToken();
       console.log("refresh token " + refreshToken + '\n');
+      
+      console.log("*********************************")
       res.redirect('/allRoutes');
+
     },
     onFailure: function(err) {
       console.error(err);
