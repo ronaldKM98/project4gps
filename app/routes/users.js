@@ -4,9 +4,9 @@
 const router = require('express').Router();
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 const AWS = require('aws-sdk');
-const request = require('request');
-const jwkToPem = require('jwk-to-pem');
-const jwt = require('jsonwebtoken');
+//const request = require('request');
+//const jwkToPem = require('jwk-to-pem');
+//const jwt = require('jsonwebtoken');
 global.fetch = require('node-fetch');
 const config = require('../config.json');
 
@@ -19,34 +19,29 @@ const poolData = {
   UserPoolId: config.cognito.userPoolId,
   ClientId: config.cognito.clientId
 };
-const pool_region = 'us-east-1';
+const poolRegion = 'us-east-2';
 const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+var cognitoUser;
 
+/**
+ * Get cognitoUser function
+ */
+function getCognitoUser() {
+  return cognitoUser;
+}
 /**
  * domain/signup
  */
 router.get('/signup', (req, res) => {
-  res.render('users/signup', {errors: req.session['sign-up-errors']});
-  req.session['sign-up-errors'] = [];
+  res.render('users/signup');
 });
 
 /**
  * Store in database the user registation
  */
 router.post('/signup', async (req, res) => {
-  let errors = [];
   var attributeList = [];
   const { firstName, username, email, password, confirm_password } = req.body;
-
-  errors = req.validationErrors();
-  req.session['sign-up-errors'] = [];
-
-  if(errors) {
-    for(let error in errors) {
-      req.session['sign-up-errors'].push(error.msg);
-    }
-    return res.redirect('/signup')
-  }
 
   var dataEmail = {
     Name: 'email',
@@ -78,7 +73,7 @@ router.post('/signup', async (req, res) => {
     } else {
       cognitoUser = data.user;
       console.log('email is ' + cognitoUser.getUsername());
-      req.flash('success_msg', 'Confirm your email');
+      req.flash('success_msg', 'Confirm your email, check in spam');
       res.redirect('/login');
     }
   });
@@ -109,12 +104,18 @@ router.post('/login', (req, res) => {
     Pool: userPool
   }
 
-  var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userDetails);
+  cognitoUser = new AmazonCognitoIdentity.CognitoUser(userDetails);
+  if(cognitoUser != null) {
+    console.log("SE HA LOGEADO");
+  }
   cognitoUser.authenticateUser(authenticationDetails, {
     onSuccess: result => {
-      console.log("access token " + result.getAccessToken().getJwtToken() + '\n');
-      console.log("id token " + result.getIdToken().getJwtToken() + '\n');
-      console.log("refresh token " + result.getRefreshToken().getToken() + '\n');
+      var accessToken = result.getAccessToken().getJwtToken();
+      console.log("access token " + accessToken + '\n');
+      var idToken = result.getIdToken().getJwtToken();
+      console.log("id token " + idToken + '\n');
+      var refreshToken = result.getRefreshToken().getToken();
+      console.log("refresh token " + refreshToken + '\n');
       res.redirect('/allRoutes');
     },
     onFailure: function(err) {
