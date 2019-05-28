@@ -69,6 +69,7 @@ router.post('/signup', async (req, res) => {
   userPool.signUp(email, password, attributeList, null, (err, data) => {
     if(err) {
       console.error(err);
+      req.flash('error_msg', err.message);
       res.redirect('/signup');
     } else {
       cognitoUser = data.user;
@@ -108,6 +109,7 @@ router.post('/login', (req, res) => {
   if(cognitoUser != null) {
     console.log("SE HA LOGEADO");
   }
+
   cognitoUser.authenticateUser(authenticationDetails, {
     onSuccess: result => {
       var accessToken = result.getAccessToken().getJwtToken();
@@ -120,6 +122,7 @@ router.post('/login', (req, res) => {
     },
     onFailure: function(err) {
       console.error(err);
+      req.flash('error_msg', err.message);
       res.redirect('/login');
     }
   });
