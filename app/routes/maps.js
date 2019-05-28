@@ -12,7 +12,7 @@ const Route = require('../models/Route');
 const Point = require('../models/Point');
 const Shared = require('../models/SharedRoute')
 const User = require('../models/User');
-
+const docClient = require('../config/database')
 /**
  * Helpers
  */
@@ -35,9 +35,24 @@ router.get('/maps', isAuthenticated, (req, res) => {
  */
 io.on('connection', function (socket) {
     socket.on('new point', async function (data) {
+
+        
+        var params = {
+            TableName: 'Points',
+            Item: {
+                _id: lastRouteId, lat: data.latitude, lon: data.longitude, userId: data.user
+            }
+        }
+
+        docClient.put(params, function (err, data) {
+            if (err) console.log(err);
+            else console.log(data);
+        });
+
         const newPoint = new Point({
             routeId: lastRouteId, lat: data.latitude, lon: data.longitude, userId: data.user
         });
+
         await newPoint.save();
     });
 });
