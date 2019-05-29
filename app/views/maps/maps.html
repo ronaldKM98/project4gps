@@ -29,59 +29,55 @@
                             Routes
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="../maps/allRoutes.html">All Routes</a>
-                            <a class="dropdown-item" href="../maps/maps.html">Add Route</a>
+                            <a class="dropdown-item" href="allRoutes.html">All Routes</a>
+                            <a class="dropdown-item" href="#">Add Route</a>
                             <a class="dropdown-item" href="/sharedRoutes">Shared Routes with you</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout">Logout</a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="login.html">Login</a>
+                        <a class="nav-link" href="../users/login.html">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sign Up</a>
+                        <a class="nav-link" href="../users/signup">Sign Up</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="row">
-        <div class="col-md-4 mx-auto">
-            <div class="card">
-                <div class="card-header">
-                    Account Register
+    <div class="col-sm-4 mb-3 md-2 text-center">
+        <input type="hidden" name="user" id="user" value={{user}} />
+        <div class="card-body">
+            <div class="form-group">
+                <input type="text" id="routeName" name="routeName" value="" class="form-control"
+                    placeholder="Route Name" autofocus required />
+            </div>
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <button id="bWatchMe" class="buttonMap btn" onclick="trackMe()">
+                        Track Me
+                    </button>
                 </div>
-                <div class="card-body">
-                    <form action="/signup" method="POST">
-                        <div class="form-group">
-                            <input type="text" class="form-control" name="firstName" placeholder="First Name">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" name="lastName" placeholder="Last Name">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" name="username" placeholder="Username">
-                        </div>
-                        <div class="form-group">
-                            <input type="email" class="form-control" name="email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" name="password" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" name="confirm_password"
-                                placeholder="Confirm Password">
-                        </div>
-                        <button class="otherButtons btn-block">
-                            Signup
-                        </button>
-                    </form>
+                <div class="btn-group mr-2" role="group" aria-label="Second group">
+                    <button id="bStop" class="buttonMap btn" onclick="stop()">
+                        Stop
+                    </button>
+                    <form action="/stop" method="GET" id="stopForm" name="stopForm"></form>
                 </div>
             </div>
         </div>
+
+        <div id='map'> </div>
+
     </div>
-    <!-- Scritps -->
+
+    <script src="../public/js/location.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAC_MBGOKSrR3a2FFN6c5V9J_wCasOP_8&callback=initMap">
+        </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
