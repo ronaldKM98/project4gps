@@ -2,32 +2,34 @@
  * Controller for everything related with points and routes
  */
 const router = require('express').Router();
-
 const io = require('../app');
 
 /**
- * Requiered models
+ * Required models
  */
 const Route = require('../models/Route');
 const Point = require('../models/Point');
 const Shared = require('../models/SharedRoute')
 const User = require('../models/User');
+const docClient = require('../config/database')
 
 /**
  * Helpers
  */
 const { isAuthenticated } = require('../helpers/auth');
+var userPool = require('../helpers/cognito');
 
 /**
  * Vars
  */
-let lastRouteId = "";
-
+var uuid = require('uuid/v4');
+let lastRouteId = uuid();
 /**
  * domain/maps , and sends the user id to obtain route name 
  */
 router.get('/maps', isAuthenticated, (req, res) => {
-    res.render('maps/maps', { user: req.user.id });
+    var cognitoUser = userPool.getCurrentUser();
+    res.render('maps/maps', { user: cognitoUser.getUsername() });
 });
 
 /**
@@ -35,10 +37,17 @@ router.get('/maps', isAuthenticated, (req, res) => {
  */
 io.on('connection', function (socket) {
     socket.on('new point', async function (data) {
-        const newPoint = new Point({
-            routeId: lastRouteId, lat: data.latitude, lon: data.longitude, userId: data.user
+        var params = {
+            TableName: 'Points',
+            Item: {
+                _id: uuid(), lat: data.latitude, lon: data.longitude, userId: data.user, routeId: lastRouteId
+            }
+        }
+
+        docClient.put(params, function (err, data) {
+            if (err) console.log(err);
+            else console.log(data);
         });
-        await newPoint.save();
     });
 });
 
@@ -47,9 +56,18 @@ io.on('connection', function (socket) {
  */
 io.on('connection', function (socket) {
     socket.on('new route', async function (data) {
-        const newRoute = new Route({ userId: data.user, name: data.name });
-        await newRoute.save();
-        lastRouteId = newRoute.id;
+        console.log("AQUIIIIII", data.routeName);
+        var params = {
+            TableName: 'Routes',
+            Item: {
+                _id: lastRouteId, userId: data.user, name: data.name
+            }
+        }
+        lastRouteId = uuid(); 
+        docClient.put(params, function (err, data) {
+            if (err) console.log(err);
+            else console.log(data);
+        });
     });
 });
 
@@ -57,8 +75,9 @@ io.on('connection', function (socket) {
  * domain/allRoutes , and sends the routes that the user created to display them 
  */
 router.get('/allRoutes', isAuthenticated, async (req, res) => {
-    const route = await Route.find({ userId: req.user.id }).sort({ date: 'desc' });
-    res.render('maps/allRoutes', { route });
+    //const route = await Route.find({ userId: req.user.id }).sort({ date: 'desc' });
+    
+    res.render('maps/allRoutes', {  });
 });
 
 /**
