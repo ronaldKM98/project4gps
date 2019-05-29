@@ -53,3 +53,11 @@ body {
   margin-top: 10px;
   margin-left: 10px;
 }
+
+.disable {
+    display:none
+}
+
+.enable {
+  display: block
+}
