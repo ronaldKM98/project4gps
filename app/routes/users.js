@@ -2,12 +2,14 @@
  * Controller of users
  */
 const router = require('express').Router();
-const passport = require('passport');
+const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+global.fetch = require('node-fetch');
 
 /**
- * Models
+ * Global variables
  */
 const User = require('../models/User');
+var userPool = require('../helpers/cognito');
 
 /**
  * domain/signup
@@ -20,31 +22,44 @@ router.get('/signup', (req, res) => {
  * Store in database the user registation
  */
 router.post('/signup', async (req, res) => {
-  let errors = [];
-  const { firstName, lastName, username, email, password, confirm_password } = req.body;
-  if(password != confirm_password) {
-    errors.push({text: 'Passwords do not match.'});
+  var attributeList = [];
+  const { firstName, username, email, password, confirm_password } = req.body;
+
+  var dataEmail = {
+    Name: 'email',
+    Value: email
+  };
+  var dataName = {
+    Name: 'name',
+    Value: firstName
+  };
+  var dataUsername = {
+    Name: 'preferred_username',
+    Value: username
   }
-  if(password.length < 4) {
-    errors.push({text: 'Passwords must be at least 4 characters.'})
-  }
-  if(errors.length > 0){
-    res.render('users/signup', {errors, firstName, lastName, username, email, password, confirm_password});
-  } else {
-    // Look for email coincidence
-    const emailUser = await User.findOne({email: email});
-    if(emailUser) {
-      req.flash('error_msg', 'The Email is already in use.');
+
+  var emailAttributes = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail);
+  var nameAttributes = new AmazonCognitoIdentity.CognitoUserAttribute(dataName);
+  var usernameAttributes = new AmazonCognitoIdentity.CognitoUserAttribute(dataUsername);
+
+
+  attributeList.push(emailAttributes);
+  attributeList.push(nameAttributes);
+  attributeList.push(usernameAttributes);
+
+  var cognitoUser;
+  userPool.signUp(email, password, attributeList, null, (err, data) => {
+    if(err) {
+      console.error(err);
+      req.flash('error_msg', err.message);
       res.redirect('/signup');
     } else {
-      // Saving a New User
-      const newUser = new User({firstName, lastName, username, email, password});
-      newUser.password = await newUser.encryptPassword(password);
-      await newUser.save();
-      req.flash('success_msg', 'You are registered.');
+      cognitoUser = data.user;
+      // console.log('email is ' + cognitoUser.getUsername());
+      req.flash('success_msg', 'Confirm your email, check in spam');
       res.redirect('/login');
     }
-  }
+  });
 });
 
 /**
@@ -57,21 +72,56 @@ router.get('/login', (req, res) => {
 /**
  * check if user is registred 
  */
-router.post('/login', passport.authenticate('local', {
-  //If is registred, go to allRoutes 
-  successRedirect: '/allRoutes',
-  //If not, login again
-  failureRedirect: '/login',
-  failureFlash: true
-}));
+router.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  const authenticationData = {
+    Username: email,
+    Password: password
+  }
+
+  const authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
+
+  const userData = {
+    Username: email,
+    Pool: userPool
+  }
+
+  cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+
+  cognitoUser.authenticateUser(authenticationDetails, {
+    onSuccess: result => {
+      var accessToken = result.getAccessToken().getJwtToken();
+      console.log("access token " + accessToken + '\n');
+      var idToken = result.getIdToken().getJwtToken();
+      console.log("id token " + idToken + '\n');
+      var refreshToken = result.getRefreshToken().getToken();
+      console.log("refresh token " + refreshToken + '\n');
+      
+      console.log("*********************************")
+      res.redirect('/allRoutes');
+    },
+    onFailure: function(err) {
+      console.error(err);
+      req.flash('error_msg', err.message);
+      res.redirect('/login');
+    }
+  });
+});
 
 /**
  * Logout
  */
 router.get('/logout', (req, res) => {
-  req.logout();
-  req.flash('success_msg', 'You are logged out now.');
-  res.redirect('/login');
+  var cognitoUser = userPool.getCurrentUser();
+  if (cognitoUser != null) {
+    cognitoUser.signOut();
+    req.flash('success_msg', 'You are logged out now.');
+    res.redirect('/login');
+  } else {
+    req.flash('error_msg', 'You are not logged in.');
+    res.redirect('/login');
+  }
 });
 
 module.exports = router;

@@ -1,0 +1,6 @@
+{
+    "cognito": {
+        "userPoolId" : "******",
+        "clientId" : "******"
+    }
+}
