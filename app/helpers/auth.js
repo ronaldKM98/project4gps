@@ -4,14 +4,6 @@
 const helpers = {};
 var userPool = require('./cognito');
 
-/** helpers.isAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  req.flash('error_msg', 'Not Authorized.');
-  res.redirect('/login');
-};*/
-
 helpers.isAuthenticated = (req, res, next) => {
   var cognitoUser = userPool.getCurrentUser();
   if (cognitoUser != null) {
@@ -24,6 +16,9 @@ helpers.isAuthenticated = (req, res, next) => {
       }
       console.log('session validity: ' + session.isValid());
     });
+  } else {
+    req.flash('error_msg', 'you are already logged out');
+    res.redirect('/login');
   }
 }
 

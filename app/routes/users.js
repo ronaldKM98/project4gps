@@ -3,35 +3,12 @@
  */
 const router = require('express').Router();
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
-//const AWS = require('aws-sdk');
-//const request = require('request');
-//const jwkToPem = require('jwk-to-pem');
-//const jwt = require('jsonwebtoken');
 global.fetch = require('node-fetch');
-//const config = require('../config.json');
 
 /**
  * Global variables
  */
 const User = require('../models/User');
-
-/** const poolData = { 
-  UserPoolId: config.cognito.userPoolId,
-  ClientId: config.cognito.clientId
-};*/
-
-/** const poolRegion = 'us-east-2';
-const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-var cognitoUser;
-
-
-/**
- * Get cognitoUser function
- 
-function getCognitoUser() {
-  return cognitoUser;
-}*/
-
 var userPool = require('../helpers/cognito');
 
 /**
@@ -123,7 +100,6 @@ router.post('/login', (req, res) => {
       
       console.log("*********************************")
       res.redirect('/allRoutes');
-
     },
     onFailure: function(err) {
       console.error(err);
@@ -137,9 +113,15 @@ router.post('/login', (req, res) => {
  * Logout
  */
 router.get('/logout', (req, res) => {
-  req.logout();
-  req.flash('success_msg', 'You are logged out now.');
-  res.redirect('/login');
+  var cognitoUser = userPool.getCurrentUser();
+  if (cognitoUser != null) {
+    cognitoUser.signOut();
+    req.flash('success_msg', 'You are logged out now.');
+    res.redirect('/login');
+  } else {
+    req.flash('error_msg', 'You are not logged in.');
+    res.redirect('/login');
+  }
 });
 
 module.exports = router;
