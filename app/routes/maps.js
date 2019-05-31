@@ -13,67 +13,61 @@ const Point = require('../models/Point');
 const Shared = require('../models/SharedRoute')
 const User = require('../models/User');
 const docClient = require('../config/database')
+const path = require("path")
+const uuid = require("uuid/v4");
 /**
  * Helpers
  */
 const { isAuthenticated } = require('../helpers/auth');
 
 /**
- * Vars
- */
-let lastRouteId = "";
-
-/**
  * domain/maps , and sends the user id to obtain route name 
  */
-router.get('/maps', isAuthenticated, (req, res) => {
-    res.render('maps/maps', { user: req.user.id });
-});
-
-/**
- * Stores point in data base in real time
- */
-io.on('connection', function (socket) {
-    socket.on('new point', async function (data) {
-
-        
-        var params = {
-            TableName: 'Points',
-            Item: {
-                _id: lastRouteId, lat: data.latitude, lon: data.longitude, userId: data.user
-            }
-        }
-
-        docClient.put(params, function (err, data) {
-            if (err) console.log(err);
-            else console.log(data);
-        });
-
-        const newPoint = new Point({
-            routeId: lastRouteId, lat: data.latitude, lon: data.longitude, userId: data.user
-        });
-
-        await newPoint.save();
-    });
-});
-
-/**
- * Stores route name in data base
- */
-io.on('connection', function (socket) {
-    socket.on('new route', async function (data) {
-        const newRoute = new Route({ userId: data.user, name: data.name });
-        await newRoute.save();
-        lastRouteId = newRoute.id;
-    });
+router.get('/maps', (req, res) => {
+    res.sendFile(path.join(__dirname + "/../public/views/maps/maps.html"));
 });
 
 /**
  * domain/allRoutes , and sends the routes that the user created to display them 
  */
-router.get('/allRoutes', isAuthenticated, async (req, res) => {
-    const route = await Route.find({ userId: req.user.id }).sort({ date: 'desc' });
-    res.render('maps/allRoutes', { route });
+router.get('/allRoutes', async (req, res) => {
+    res.sendFile(path.join(__dirname + "/../public/views/maps/allRoutes.html"));
+});
+
+/**
+ * Stores point in data base in real time
+ */
+router.post("/maps/guardarPunto", async (req, res) => {
+    var params = {
+        TableName: 'Points',
+        Item: {
+            _id: uuid(), lat: req.body.lat,
+            lon: req.body.lon, routeId: req.body.routeId
+        }
+    }
+    docClient.put(params, function (err, data) {
+        if (err) console.log(err);
+        else console.log(data);
+    });
+    res.redirect("/maps");
+});
+
+/**
+ * Stores route name in data base
+ */
+router.post("/maps/crearRuta", async (req, res) => {
+    var id = uuid();
+    var params = {
+        TableName: 'Routes',
+        Item: {
+            _id: id, name: req.body.name, userId: req.body.userId
+        }
+    }
+    docClient.put(params, function (err, data) {
+        if (err) console.log(err);
+        else console.log(data);
+    });
+    res.send({_id: id});
 });
 
 /**

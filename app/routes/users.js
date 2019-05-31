@@ -3,7 +3,7 @@
  */
 const router = require('express').Router();
 const passport = require('passport');
-
+const path = require('path');
 /**
  * Models
  */
@@ -13,7 +13,7 @@ const User = require('../models/User');
  * domain/signup
  */
 router.get('/signup', (req, res) => {
-  res.render('users/signup');
+  res.sendFile(path.join(__dirname + "/../public/views/users/signup.html"));
 });
 
 /**
@@ -51,7 +51,7 @@ router.post('/signup', async (req, res) => {
  * domain/login
  */
 router.get('/login', (req, res) => {
-  res.render('users/login');
+  res.sendFile(path.join(__dirname + "/../public/views/users/login.html"));
 });
 
 /**

@@ -10,13 +10,13 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
         integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <!-- CUSTOM CSS -->
-    <link rel="stylesheet" href="../public/css/main.css">
+    <link rel="stylesheet" href="../css/main.css">
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="#">Project GPS</a>
+            <a class="navbar-brand" href="/">Project GPS</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -29,40 +29,50 @@
                             Routes
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="maps/allRoutes.html">All Routes</a>
-                            <a class="dropdown-item" href="maps/maps.html">Add Route</a>
+                            <a class="dropdown-item" href="/allRoutes">All Routes</a>
+                            <a class="dropdown-item" href="/maps">Add Route</a>
                             <a class="dropdown-item" href="/sharedRoutes">Shared Routes with you</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout">Logout</a>
                         </div>
                     </li>
-                    <div id="loggedOut">
-                        <li class="nav-item">
-                            <a class="nav-link" href="users/login.html">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="users/signup.html">Sign Up</a>
-                        </li>
-                    </div>
-                    <li id="loggedIn" class="nav-item">
-                        <a class="nav-link" href="users/signup.html">Logout</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signup">Sign Up</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container">
-        <div class="jumbotron mt-4">
-            <h1 class="display-4">Project 1 GPS</h1>
-            <p class="lead">By Camila White Romero</p>
-            <hr class="my-4">
-            <p>This is the first project of Special Topics in Telematics of EAFIT University. </p>
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card mt-4 text-center">
+                <div class="card-header">
+                    <h1 class="h4">
+                        Account Login
+                    </h1>
+                </div>
+                <img class="rounded-circle mx-auto d-block logo m-4" src="../img/logo.png" alt="Logo">
+                <div class="card-body">
+                    <form action="/login" method="POST">
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="email" placeholder="Email" autofocus>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="password" placeholder="Password"
+                            >
+                        </div>
+                        <button class="otherButtons btn-block">
+                            Login
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-
-
     <!-- Scritps -->
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
@@ -72,7 +82,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-        <script src="../public/js/loginNavLinks.js"></script>
+
 </body>
 
 </html>

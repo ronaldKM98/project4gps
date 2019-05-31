@@ -1,7 +1,6 @@
 /**
  * Paints the map and tracks the users location
  */
-
 var map;
 var watchID;
 var infoWindow;
@@ -10,7 +9,6 @@ var infoWindow;
  * Paints the map
  */
 function initMap() {
-    console.log('ES INIT');
     map = new google.maps.Map(document.getElementById('map'), {
         center: new google.maps.LatLng(6.200367, -75.577609),
         zoom: 16
@@ -22,27 +20,38 @@ function initMap() {
  * Strats tracking the user
  */
 function trackMe() {
-    var socket = io();
     document.getElementById('bWatchMe').disabled = true; //disables the button 
-    //Store with socket the route name
-    socket.emit('new route', {user: document.getElementById('user').value, name: document.getElementById('routeName').value});
-    if (navigator.geolocation) {
-        watchID = navigator.geolocation.watchPosition(function (position) {
-            pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            //Stores de users location
-            socket.emit('new point', { latitude: pos.lat, longitude: pos.lng, user: document.getElementById('user').value});
-            //Creates and sets the marker
-            var marker = new google.maps.Marker({ position: pos });
-            marker.setMap(map);
-            map.setCenter(marker.getPosition());
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
+    var route = {
+        userId: "testUser",
+        name: document.getElementById('routeName').value
     }
+    var url = "/maps/crearRuta";
+    $.post(url, route, function (data, status) {
+        if (navigator.geolocation) {
+            watchID = navigator.geolocation.watchPosition(function (position) {
+                pos = {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude,
+                    routeId: data._id
+                };
+                guardarPunto(pos);
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+    });
+}
+
+function guardarPunto(pos) {
+    //Stores de users location
+    var url = "/maps/guardarPunto";
+    $.post(url, pos, function (data, status) {
+        //Creates and sets the marker
+        var marker = new google.maps.Marker({ position: {lat: pos.lat, lng: pos.lon}});
+        marker.setMap(map);
+        map.setCenter(marker.getPosition());
+    });
 }
 
 /**
@@ -55,6 +64,7 @@ async function stop() {
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    console.log(pos);
     infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation ?
         'Error: The Geolocation service failed.' :
