@@ -1,4 +1,4 @@
-var loggedIn = true;
+var loggedIn = true; // Verificar con cognito.
 console.log(loggedIn);
 if (loggedIn) {
     $("#loggedIn").addClass("disable");

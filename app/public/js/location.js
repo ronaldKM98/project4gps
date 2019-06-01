@@ -17,12 +17,12 @@ function initMap() {
 }
 
 /**
- * Strats tracking the user
+ * Starts tracking the user
  */
 function trackMe() {
     document.getElementById('bWatchMe').disabled = true; //disables the button 
     var route = {
-        userId: "testUser",
+        userId: "testUser", // Aqui hay que obtener el usuario de cognito.
         name: document.getElementById('routeName').value
     }
     var url = "/maps/crearRuta";
