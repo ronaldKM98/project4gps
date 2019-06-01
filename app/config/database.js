@@ -5,12 +5,13 @@ const AWS = require('aws-sdk');
 const awsConfig = {
     'region': 'us-east-2',
     'endpoint': 'http://dynamodb.us-east-2.amazonaws.com',
-    'accessKeyId': '*****',
-    'secretAccessKey': '*****'
+    'accessKeyId': 'AKIAUT5ELXJEHDTPL3KV',
+    'secretAccessKey': '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'
 };
   
 AWS.config.update(awsConfig);
   
 let docClient = new AWS.DynamoDB.DocumentClient();
+console.log("DB is connected :)");
 
 module.exports = docClient;

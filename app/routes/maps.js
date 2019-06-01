@@ -3,22 +3,23 @@
  */
 const router = require('express').Router();
 
-const io = require('../app');
-
 /**
  * Requiered models
  */
 const Route = require('../models/Route');
 const Point = require('../models/Point');
-const Shared = require('../models/SharedRoute')
+const Shared = require('../models/SharedRoute');
 const User = require('../models/User');
-const docClient = require('../config/database')
-const path = require("path")
+
+const docClient = require('../config/database');
+const path = require("path");
 const uuid = require("uuid/v4");
 /**
  * Helpers
  */
 const { isAuthenticated } = require('../helpers/auth');
+var userPool = require('../helpers/cognito');
+let lastRouteId = uuid();
 
 /**
  * domain/maps , and sends the user id to obtain route name 
@@ -32,6 +33,34 @@ router.get('/maps', (req, res) => {
  */
 router.get('/allRoutes', async (req, res) => {
     res.sendFile(path.join(__dirname + "/../public/views/maps/allRoutes.html"));
+});
+
+router.post('/allRoutes', async(req, res) => {
+    var id = req.body.id;
+    console.log("ID ES", id);
+    console.log(userPool.getCurrentUser());
+
+    var params = {
+        TableName : "Routes",
+        IndexName : "userId-index",
+        KeyConditionExpression: "#userId = :v_userId",
+        ExpressionAttributeNames:{
+            "#userId": "userId"
+        },
+        ExpressionAttributeValues: {
+            ":v_userId": userPool.getCurrentUser().getUsername()
+        }
+    };
+    
+    docClient.query(params, function(err, data) {
+        if (err) {
+            console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+            req.flash('error_msg', "Can't retrieve the routes");
+            res.redirect("/");
+        } else {
+            res.send(data)
+        }
+    });
 });
 
 /**

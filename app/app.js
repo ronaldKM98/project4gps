@@ -65,4 +65,4 @@ app.use(require('./routes/maps'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Server is listening
-http.listen(3000); //Is http for Socket
+http.listen(4000); //Is http for Socket
