@@ -28,6 +28,10 @@ router.get('/maps', (req, res) => {
     res.sendFile(path.join(__dirname + "/../public/views/maps/maps.html"));
 });
 
+router.get('/see', (req, res) => {
+    res.sendFile(path.join(__dirname + "/../public/views/maps/see.html"));
+});
+
 /**
  * domain/allRoutes , and sends the routes that the user created to display them 
  */
@@ -102,7 +106,7 @@ router.post("/maps/crearRuta", async (req, res) => {
 /**
  * Delete Route
  */
-router.delete('/routes/delete/:id', isAuthenticated, async (req, res) => {
+router.delete('/routes/delete/:id'/*, isAuthenticated*/, async (req, res) => {
     await Route.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Route Deleted Successfully');
     res.redirect('/allRoutes');
@@ -111,7 +115,7 @@ router.delete('/routes/delete/:id', isAuthenticated, async (req, res) => {
 /**
  * domain/route , sends points to paint them in route
  */
-router.get('/route/:id', isAuthenticated, async (req, res) => {
+router.get('/route/:id'/*, isAuthenticated*/, async (req, res) => {
     var points = await Point.find({ routeId: req.params.id }).sort({ date: 'desc' });
     res.render('maps/route', { pointArray: JSON.stringify(points) });
 });
