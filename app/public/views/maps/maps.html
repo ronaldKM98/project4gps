@@ -33,14 +33,8 @@
                             <a class="dropdown-item" href="/maps">Add Route</a>
                             <a class="dropdown-item" href="/sharedRoutes">Shared Routes with you</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/logout">Logout</a>
+                            <a class="dropdown-item" href="javascript:window.onclick = logout()">Logout</a>
                         </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/signup">Sign Up</a>
                     </li>
                 </ul>
             </div>
@@ -63,7 +57,7 @@
                     <button id="bStop" class="buttonMap btn" onclick="stop()">
                         Stop
                     </button>
-                    <form action="/stop" method="GET" id="stopForm" name="stopForm"></form>
+                    
                 </div>
             </div>
         </div>
@@ -72,8 +66,8 @@
 
     </div>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=*****&callback=initMap">
-        </script>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAC_MBGOKSrR3a2FFN6c5V9J_wCasOP_8&callback=initMap">
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
@@ -85,6 +79,12 @@
         crossorigin="anonymous"></script>
     <script src="../js/lib/jquery-3.3.1.min.js"></script>
     <script src="../js/location.js"></script>
+
+    
+    <script src="../../js/lib/aws-cognito-sdk.min.js"></script>
+    <script src="../../js/lib/amazon-cognito-identity.min.js"></script>
+    <script src="../../js/config.js"></script>
+    <script src="../../js/logout.js"></script>
 </body>
 
 </html>

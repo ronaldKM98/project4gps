@@ -1,5 +1,12 @@
 var url = "/allRoutes";
-id = {id: "testUser"} // Adaptar a cognito.
+var poolData = {
+    UserPoolId: window._config.cognito.userPoolId,
+    ClientId: window._config.cognito.userPoolClientId
+};
+var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+var cognitoUser = userPool.getCurrentUser();
+
+id = {id: cognitoUser.getUsername()}; // Adaptar a cognito.
 
 $.post(url, id, function (data, status) {
     data.Items.forEach(route => {

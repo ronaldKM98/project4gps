@@ -1,6 +1,7 @@
 /**
  * Controller of users
  */
+
 const router = require('express').Router();
 //const passport = require('passport');
 const path = require('path');
@@ -24,21 +25,6 @@ router.get('/signup', (req, res) => {
  */
 router.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname + "/../public/views/users/login.html"));
-});
-
-/**
- * Logout
- */
-router.get('/logout', (req, res) => {
-  var cognitoUser = userPool.getCurrentUser();
-  if (cognitoUser != null) {
-    cognitoUser.signOut();
-    req.flash('success_msg', 'You are logged out now.');
-    res.redirect('/login');
-  } else {
-    req.flash('error_msg', 'You are not logged in.');
-    res.redirect('/login');
-  }
 });
 
 module.exports = router;
