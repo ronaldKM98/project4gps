@@ -6,7 +6,7 @@ var poolData = {
 var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 var cognitoUser = userPool.getCurrentUser();
 
-id = {id: cognitoUser.getUsername()}; // Adaptar a cognito.
+id = {id: cognitoUser.getUsername()};
 
 $.post(url, id, function (data, status) {
     data.Items.forEach(route => {
