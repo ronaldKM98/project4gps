@@ -8,7 +8,7 @@ function login() {
     };
 
     var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-
+    
     const authenticationData = {
         Username: email,
         Password: password
@@ -21,7 +21,7 @@ function login() {
         Pool: userPool
     }
 
-    cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
 
     cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: result => {
@@ -31,7 +31,6 @@ function login() {
             //console.log(idToken);
             var refreshToken = result.getRefreshToken();
             //console.log("refresh token " + refreshToken + '\n');
-            console.log("HICE LOGIN");
             window.location.replace("/allRoutes");
         },
         onFailure: function(err) {

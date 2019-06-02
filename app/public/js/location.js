@@ -20,9 +20,16 @@ function initMap() {
  * Starts tracking the user
  */
 function trackMe() {
+    var poolData = {
+        UserPoolId: window._config.cognito.userPoolId,
+        ClientId: window._config.cognito.userPoolClientId
+    };
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+    var cognitoUser = userPool.getCurrentUser();
+
     document.getElementById('bWatchMe').disabled = true; //disables the button 
     var route = {
-        userId: "testUser", // Aqui hay que obtener el usuario de cognito.
+        userId: cognitoUser.getUsername(),
         name: document.getElementById('routeName').value
     }
     var url = "/maps/crearRuta";
@@ -59,8 +66,8 @@ function guardarPunto(pos) {
  */
 async function stop() {
     navigator.geolocation.clearWatch(watchID);
-    document.stopForm.submit();
     document.getElementById('bWatchMe').disabled = false;
+    window.location.replace("/allRoutes");
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {

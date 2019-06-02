@@ -37,9 +37,7 @@ router.get('/allRoutes', async (req, res) => {
 
 router.post('/allRoutes', async(req, res) => {
     var id = req.body.id;
-    console.log("ID ES", id);
-    console.log(userPool.getCurrentUser());
-
+    
     var params = {
         TableName : "Routes",
         IndexName : "userId-index",
@@ -48,7 +46,7 @@ router.post('/allRoutes', async(req, res) => {
             "#userId": "userId"
         },
         ExpressionAttributeValues: {
-            ":v_userId": userPool.getCurrentUser().getUsername()
+            ":v_userId": id
         }
     };
     
@@ -76,7 +74,7 @@ router.post("/maps/guardarPunto", async (req, res) => {
     }
     docClient.put(params, function (err, data) {
         if (err) console.log(err);
-        else console.log(data);
+        else console.log(params);
     });
     res.redirect("/maps");
 });
