@@ -33,42 +33,26 @@
                             <a class="dropdown-item" href="/maps">Add Route</a>
                             <a class="dropdown-item" href="/sharedRoutes">Shared Routes with you</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="javascript:window.onclick = logout()">Logout</a>
+                            <a class="dropdown-item" href="/logout">Logout</a>
                         </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signup">Sign Up</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="col-sm-4 mb-3 md-2 text-center">
-        <input type="hidden" name="user" id="user" value={{user}} />
-        <div class="card-body">
-            <div class="form-group">
-                <input type="text" id="routeName" name="routeName" value="" class="form-control"
-                    placeholder="Route Name" autofocus required />
-            </div>
-            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                <div class="btn-group mr-2" role="group" aria-label="First group">
-                    <button id="bWatchMe" class="buttonMap btn" onclick="trackMe()">
-                        Track Me
-                    </button>
-                </div>
-                <div class="btn-group mr-2" role="group" aria-label="Second group">
-                    <button id="bStop" class="buttonMap btn" onclick="stop()">
-                        Stop
-                    </button>
-                    
-                </div>
-            </div>
-        </div>
 
-        
+    <div id='map'> </div>
 
     </div>
-    <div id='map'> </div>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAC_MBGOKSrR3a2FFN6c5V9J_wCasOP_8&callback=initMap">
-    </script>
+        </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
@@ -80,12 +64,7 @@
         crossorigin="anonymous"></script>
     <script src="../js/lib/jquery-3.3.1.min.js"></script>
     <script src="../js/location.js"></script>
-
-    
-    <script src="../../js/lib/aws-cognito-sdk.min.js"></script>
-    <script src="../../js/lib/amazon-cognito-identity.min.js"></script>
-    <script src="../../js/config.js"></script>
-    <script src="../../js/logout.js"></script>
+    <script src="../js/route.js"></script>
 </body>
 
 </html>

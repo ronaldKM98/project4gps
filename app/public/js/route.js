@@ -1,22 +1,33 @@
 /**
  * Shows the route
  */
-
 var points;
+var pathname = window.location.pathname;
+
+function getParam() {
+    return pathname.split('/see/')[1];
+}
+
+var url = "/route/" + getParam();
+
+id = {id: "testUser"} // Adaptar a cognito.
+
+$.get(url, id, function (data, status) {
+    points = data.Items
+    var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer;
+    directionsDisplay.setMap(map);
+    calculateAndDisplayRoute(directionsService, directionsDisplay);
+});;
 
 /**
  * Paints the map
  */
 function initMap() {
-    points = JSON.parse(document.getElementById('points').value);
-    map = new google.maps.Map(document.getElementById('map-canvas'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         center: new google.maps.LatLng(6.200367, -75.577609),
         zoom: 16
     });
-    var directionsService = new google.maps.DirectionsService;
-    var directionsDisplay = new google.maps.DirectionsRenderer;
-    directionsDisplay.setMap(map);
-    calculateAndDisplayRoute(directionsService, directionsDisplay);
 }
 
 /**
