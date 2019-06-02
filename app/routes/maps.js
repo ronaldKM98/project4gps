@@ -28,7 +28,7 @@ router.get('/maps', (req, res) => {
     res.sendFile(path.join(__dirname + "/../public/views/maps/maps.html"));
 });
 
-router.get('/see', (req, res) => {
+router.get('/see/:id', (req, res) => {
     res.sendFile(path.join(__dirname + "/../public/views/maps/see.html"));
 });
 
@@ -52,7 +52,7 @@ router.post('/allRoutes', async(req, res) => {
             "#userId": "userId"
         },
         ExpressionAttributeValues: {
-            ":v_userId": userPool.getCurrentUser().getUsername()
+            ":v_userId": id//userPool.getCurrentUser().getUsername()
         }
     };
     
@@ -116,8 +116,33 @@ router.delete('/routes/delete/:id'/*, isAuthenticated*/, async (req, res) => {
  * domain/route , sends points to paint them in route
  */
 router.get('/route/:id'/*, isAuthenticated*/, async (req, res) => {
-    var points = await Point.find({ routeId: req.params.id }).sort({ date: 'desc' });
-    res.render('maps/route', { pointArray: JSON.stringify(points) });
+    console.log(req.params.id)
+    /*var id = req.body.id;
+    console.log("ID ES", id);
+    console.log(userPool.getCurrentUser());*/
+
+    var params = {
+        TableName : "Points",
+        IndexName : "routeId-index",
+        KeyConditionExpression: "#routeId = :v_routeId",
+        ExpressionAttributeNames:{
+            "#routeId": "routeId"
+        },
+        ExpressionAttributeValues: {
+            ":v_routeId": req.params.id
+        }
+    };
+    console.log(params)
+    
+    docClient.query(params, function(err, data) {
+        if (err) {
+            console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+            req.flash('error_msg', "Can't retrieve the points");
+            res.redirect("/");
+        } else {
+            res.send(data)
+        }
+    });
 });
 
 /**
