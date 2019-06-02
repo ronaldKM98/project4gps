@@ -10,7 +10,14 @@ function getParam() {
 
 var url = "/route/" + getParam();
 
-id = {id: "testUser"} // Adaptar a cognito.
+var poolData = {
+    UserPoolId: window._config.cognito.userPoolId,
+    ClientId: window._config.cognito.userPoolClientId
+};
+var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+var cognitoUser = userPool.getCurrentUser();
+
+id = {id: cognitoUser.getUsername()};
 
 $.get(url, id, function (data, status) {
     points = data.Items
