@@ -31,7 +31,7 @@ function login() {
             //console.log(idToken);
             var refreshToken = result.getRefreshToken();
             //console.log("refresh token " + refreshToken + '\n');
-            window.location.replace("/allRoutes");
+            window.location.replace("../maps/allRoutes.html");
         },
         onFailure: function(err) {
             alert(err.message);

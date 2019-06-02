@@ -32,7 +32,7 @@ function trackMe() {
         userId: cognitoUser.getUsername(),
         name: document.getElementById('routeName').value
     }
-    var url = "/maps/crearRuta";
+    var url = "/maps/crearRuta"; //Lambda
     $.post(url, route, function (data, status) {
         if (navigator.geolocation) {
             watchID = navigator.geolocation.watchPosition(function (position) {
@@ -52,7 +52,7 @@ function trackMe() {
 
 function guardarPunto(pos) {
     //Stores de users location
-    var url = "/maps/guardarPunto";
+    var url = "/maps/guardarPunto"; //Lambda
     $.post(url, pos, function (data, status) {
         //Creates and sets the marker
         var marker = new google.maps.Marker({ position: {lat: pos.lat, lng: pos.lon}});
@@ -67,7 +67,7 @@ function guardarPunto(pos) {
 async function stop() {
     navigator.geolocation.clearWatch(watchID);
     document.getElementById('bWatchMe').disabled = false;
-    window.location.replace("/allRoutes");
+    window.location.replace("allRoutes.html");
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {

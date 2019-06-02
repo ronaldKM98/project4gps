@@ -8,11 +8,9 @@ function logout() {
     var cognitoUser = userPool.getCurrentUser();
     
     if (cognitoUser != null) {
-        console.log("logout")
         cognitoUser.signOut();
-        window.location.replace("/login");
+        window.location.replace("../users/login.html");
     } else {
-        console.log("else   ")
-        window.location.replace("/login");
+        window.location.replace("../users/login.html");
     }
 }

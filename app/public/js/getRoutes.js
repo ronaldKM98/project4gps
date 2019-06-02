@@ -1,4 +1,4 @@
-var url = "/allRoutes";
+var url = "/allRoutes"; //url de lambda
 var poolData = {
     UserPoolId: window._config.cognito.userPoolId,
     ClientId: window._config.cognito.userPoolClientId
@@ -20,5 +20,6 @@ $.post(url, id, function (data, status) {
     });
 });
 
+//see lambda
 
 

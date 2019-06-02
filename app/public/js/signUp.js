@@ -49,7 +49,7 @@ function signUp() {
             cognitoUser = data.user;
             console.log(cognitoUser.getUsername());
             alert("Check your email"); 
-            window.location.replace("/login");
+            window.location.replace("login.html");
         }
     });
 }

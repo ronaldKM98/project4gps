@@ -7,6 +7,6 @@ var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 var cognitoUser = userPool.getCurrentUser();
 
 if (cognitoUser == null) {
-    window.location.replace("/signup");
+    window.location.replace("../users/signup.html");
     
 } 

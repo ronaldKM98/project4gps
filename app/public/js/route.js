@@ -8,7 +8,7 @@ function getParam() {
     return pathname.split('/see/')[1];
 }
 
-var url = "/route/" + getParam();
+var url = "/route/" + getParam(); //Lambda
 
 var poolData = {
     UserPoolId: window._config.cognito.userPoolId,
