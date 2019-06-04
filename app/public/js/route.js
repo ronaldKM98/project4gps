@@ -17,7 +17,7 @@ var poolData = {
 var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 var cognitoUser = userPool.getCurrentUser();
 
-id = {id: cognitoUser.getUsername()};
+id = {id: getParam()};
 
 $.get(url, id, function (data, status) {
     points = data.Items
@@ -25,7 +25,7 @@ $.get(url, id, function (data, status) {
     var directionsDisplay = new google.maps.DirectionsRenderer;
     directionsDisplay.setMap(map);
     calculateAndDisplayRoute(directionsService, directionsDisplay);
-});;
+});
 
 /**
  * Paints the map
