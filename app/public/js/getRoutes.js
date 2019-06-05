@@ -46,7 +46,7 @@ getToken().then(result => {
     
     $.post(url, JSON.stringify(req), function (data, status) {
         console.log("HERE", data);
-        var items =JSON.parse(data.body).Items;
+        var items = JSON.parse(data.body).Items;
         
         items.forEach(route => {
             $("#routeRow").append("<div class='col-sm-3'><div class='card'><div class='card-body'>" +

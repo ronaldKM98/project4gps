@@ -16,46 +16,88 @@ function initMap() {
     infoWindow = new google.maps.InfoWindow;
 }
 
+// AWS
+var poolData = {
+    UserPoolId: window._config.cognito.userPoolId,
+    ClientId: window._config.cognito.userPoolClientId
+};
+var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+var cognitoUser = userPool.getCurrentUser();
+
+async function getToken() {
+    const token = await new Promise(function fetchCurrentAuthToken(resolve, reject) {
+        var cognitoUser = userPool.getCurrentUser();
+        if (cognitoUser) {
+            cognitoUser.getSession(function sessionCallback(err, session) {
+                if (err) {
+                    reject(err);
+                }
+                else if (!session.isValid()) {
+                    resolve(null);
+                }
+                else {
+                    resolve(session.getIdToken().getJwtToken());
+                }
+            });
+        }
+        else {
+            resolve(null);
+        }
+    });
+    if (token) {
+        return token;
+    }
+    else {
+        window.location.replace("/signin");
+        return null;
+    }
+}
+
 /**
  * Starts tracking the user
  */
 function trackMe() {
-    var poolData = {
-        UserPoolId: window._config.cognito.userPoolId,
-        ClientId: window._config.cognito.userPoolClientId
-    };
-    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-    var cognitoUser = userPool.getCurrentUser();
-
     document.getElementById('bWatchMe').disabled = true; //disables the button 
-    var route = {
-        userId: cognitoUser.getUsername(),
-        name: document.getElementById('routeName').value
-    }
-    var url = "/maps/crearRuta"; //Lambda
-    $.post(url, route, function (data, status) {
-        if (navigator.geolocation) {
-            watchID = navigator.geolocation.watchPosition(function (position) {
-                pos = {
-                    lat: position.coords.latitude,
-                    lon: position.coords.longitude,
-                    routeId: data._id
-                };
-                guardarPunto(pos);
-            });
-        } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
-        }
+    var url = _config.api.invokeUrl + "/newroute";
+    getToken().then(result => {
+        req = {
+            headers: {
+                idToken: result
+            },
+            userId: cognitoUser.getUsername(),
+            name: document.getElementById('routeName').value
+        };
+        
+        $.post(url, JSON.stringify(req), function (data, status) {
+            if (navigator.geolocation) {
+                watchID = navigator.geolocation.watchPosition(function (position) {
+                    pos = {
+                        headers: {
+                            idToken: result
+                        },
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude,
+                        routeId: data._id
+                    };
+                    guardarPunto(pos);
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+        });
+
+    }).catch(err => {
+        window.location.replace("signin");
     });
 }
 
 function guardarPunto(pos) {
     //Stores de users location
-    var url = "/maps/guardarPunto"; //Lambda
-    $.post(url, pos, function (data, status) {
+    var url = _config.api.invokeUrl + "/newpoint";
+    $.post(url, JSON.stringify(pos), function (data, status) {
         //Creates and sets the marker
-        var marker = new google.maps.Marker({ position: {lat: pos.lat, lng: pos.lon}});
+        var marker = new google.maps.Marker({ position: { lat: pos.lat, lng: pos.lon } });
         marker.setMap(map);
         map.setCenter(marker.getPosition());
     });
