@@ -1,14 +1,4 @@
-/**
- * Shows the route
- */
-var points;
-var pathname = window.location.pathname;
-
-function getParam() {
-    return pathname.split('/see/')[1];
-}
-
-var url = "/route/" + getParam(); //Lambda
+var url = _config.api.invokeUrl + "/getroute";
 
 var poolData = {
     UserPoolId: window._config.cognito.userPoolId,
@@ -17,15 +7,62 @@ var poolData = {
 var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 var cognitoUser = userPool.getCurrentUser();
 
-id = {id: getParam()};
+async function getToken() {
+    const token = await new Promise(function fetchCurrentAuthToken(resolve, reject) {
+        var cognitoUser = userPool.getCurrentUser();
+        if (cognitoUser) {
+            cognitoUser.getSession(function sessionCallback(err, session) {
+                if (err) {
+                    reject(err);
+                }
+                else if (!session.isValid()) {
+                    resolve(null);
+                }
+                else {
+                    resolve(session.getIdToken().getJwtToken());
+                }
+            });
+        }
+        else {
+            resolve(null);
+        }
+    });
+    if (token) {
+        return token;
+    }
+    else {
+        window.location.replace("/signin");
+        return null;
+    }
+}
 
-$.get(url, id, function (data, status) {
-    points = data.Items
-    var directionsService = new google.maps.DirectionsService;
-    var directionsDisplay = new google.maps.DirectionsRenderer;
-    directionsDisplay.setMap(map);
-    calculateAndDisplayRoute(directionsService, directionsDisplay);
-});
+var points;
+
+/**
+ * Shows the route
+ */
+function seeRoute(btnId) {
+    getToken().then(result => {
+        req = {
+            headers: {
+                idToken: result
+            },
+            id: btnId
+        };
+
+        $.post(url, JSON.stringify(req), function (data, status) {
+            var items = JSON.parse(data.body).Items;
+            console.log(items)
+            points = items
+            $("#route-list").addClass("d-none");
+            $("#see-map").removeClass("d-none");
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            directionsDisplay.setMap(map);
+            calculateAndDisplayRoute(directionsService, directionsDisplay);
+        });
+    });
+}
 
 /**
  * Paints the map
@@ -46,21 +83,21 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
     var waypts = []; //Points between origin and destination
     //Calculate the strp to store waypoints
     var max;
-    if(points.length-2 > 8) { //8 is the max waypoints permited by Google Maps for non premium
-        max = Math.floor((points.length-2)/8);
+    if (points.length - 2 > 8) { //8 is the max waypoints permited by Google Maps for non premium
+        max = Math.floor((points.length - 2) / 8);
     } else {
         max = 1;
     }
-    for(var i = 1; i < points.length-1; i = i+max) { 
+    for (var i = 1; i < points.length - 1; i = i + max) {
         waypts.push({
-            location: new google.maps.LatLng(points[i].lat, points[i].lon), 
+            location: new google.maps.LatLng(points[i].lat, points[i].lon),
             stopover: false
         });
     };
     //Paint route
     directionsService.route({
         origin: new google.maps.LatLng(points[0].lat, points[0].lon),
-        destination: new google.maps.LatLng(points[points.length-1].lat, points[points.length-1].lon),
+        destination: new google.maps.LatLng(points[points.length - 1].lat, points[points.length - 1].lon),
         waypoints: waypts,
         optimizeWaypoints: true,
         travelMode: 'WALKING'

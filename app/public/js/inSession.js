@@ -8,5 +8,4 @@ var cognitoUser = userPool.getCurrentUser();
 
 if (cognitoUser == null) {
     window.location.replace("../users/signup.html");
-    
 } 

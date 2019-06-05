@@ -37,26 +37,30 @@ async function getToken() {
 }
 
 getToken().then(result => {
+    console.log("token: " + result)
     req = {
         headers: {
             idToken: result
         },
         id: cognitoUser.getUsername()
     };
-    
+
     $.post(url, JSON.stringify(req), function (data, status) {
         console.log("HERE", data);
         var items = JSON.parse(data.body).Items;
-        
-        items.forEach(route => {
-            $("#routeRow").append("<div class='col-sm-3'><div class='card'><div class='card-body'>" +
-                "<h5 class='card-title'>" + route.name + "</h5>" +
-                "<div class='btn-group btn-group' role='group' aria-label=" + route.name + ">"+
-                "<a href='/see/"+ route._id+"' class='btn btn-primary'>See</a>" +
-                "<a href='/routes/delete/" +route._id+"' class='btn btn-danger'>Delete</a>" +
-                "</div>"+
-                "</div></div></div>");
-        });
+        if (items.length > 0) {
+            items.forEach(route => {
+                $("#routeRow").append("<div class='col-sm-3'><div class='card'><div class='card-body'>" +
+                    "<h5 class='card-title'>" + route.name + "</h5>" +
+                    "<div class='btn-group btn-group' role='group' aria-label=" + route.name + ">" +
+                    "<a onclick=\"seeRoute(\'" + route._id + "\')\" class='btn btn-primary'>See</a>" +
+                    "<a onclick=\"deleteRoute(\'" + route._id + "\')\" class='btn btn-danger'>Delete</a>" +
+                    "</div>" +
+                    "</div></div></div>");
+            });
+        } else {
+            $(".no-routes").removeClass("d-none")
+        }
     });
 }).catch(err => {
     window.location.replace("signin");

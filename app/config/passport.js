@@ -26,7 +26,6 @@ passport.use(new LocalStrategy({
       return done(null, false, { message: 'Incorrect Password.' });
     }
   }
-
 }));
 
 passport.serializeUser((user, done) => {

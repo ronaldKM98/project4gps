@@ -67,9 +67,13 @@ function trackMe() {
             userId: cognitoUser.getUsername(),
             name: document.getElementById('routeName').value
         };
-        
+        console.log("asdad")
         $.post(url, JSON.stringify(req), function (data, status) {
+            console.log(data)
+            console.log("aqqquiii")
             if (navigator.geolocation) {
+                var id = JSON.parse(data.body)._id
+                console.log(id)
                 watchID = navigator.geolocation.watchPosition(function (position) {
                     pos = {
                         headers: {
@@ -77,7 +81,7 @@ function trackMe() {
                         },
                         lat: position.coords.latitude,
                         lon: position.coords.longitude,
-                        routeId: data._id
+                        routeId: id
                     };
                     guardarPunto(pos);
                 });
