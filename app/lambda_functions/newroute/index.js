@@ -8,8 +8,8 @@ exports.handler = (event, context, callback) => {
     var awsConfig = {
         'region': 'us-east-2',
         'endpoint': 'http://dynamodb.us-east-2.amazonaws.com',
-        'accessKeyId': 'AKIAUT5ELXJEHDTPL3KV',
-        'secretAccessKey': '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'
+        'accessKeyId': '****',
+        'secretAccessKey': '***'
     };
   
     AWS.config.update(awsConfig);
