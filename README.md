@@ -54,32 +54,32 @@ Aspects improved from the original project
 
 ## 6.1. Architectural and Scalability patterns and best practices on the Application and System.
 
-* MicroServices Oriented Architecture
-* Serverless Architecture
+### MicroServices Oriented Architecture
+### Serverless Architecture
 
-* Recommended Practices from AWS: https://d36cz9buwru1tt.cloudfront.net/es/whitepapers/AWS_Cloud_Best_Practices.pdf
+### Recommended Practices from AWS: https://d36cz9buwru1tt.cloudfront.net/es/whitepapers/AWS_Cloud_Best_Practices.pdf
 
-- Decouple its components.
-- Keep the dynamic data closer to the computer structure and the static data closer to the end user.
-- Protect data in transit.
+#### Decouple its components.
+#### Keep the dynamic data closer to the computer structure and the static data closer to the end user.
+#### Protect data in transit.
 
-* Scalability patterns
+### Scalability patterns
 
-- Event Driven Architecture Pattern.
-- Service Oriented Architecture Pattern 
-- Worload/demand distribution
-- Data Pull Pattern
+#### Event Driven Architecture Pattern.
+#### Service Oriented Architecture Pattern 
+#### Worload/demand distribution
+#### Data Pull Pattern
 
-* Scalability Best Practices
+### Scalability Best Practices
 
-- Stateless session
+#### Stateless session
 
-* Support from Dimensions of Scalability
+### Support from Dimensions of Scalability
 
-- Load Scalability.
-- Functionality Scalability.
-- Integration Scalability.
-- Geographic Scalability.
+#### Load Scalability.
+#### Functionality Scalability.
+#### Integration Scalability.
+#### Geographic Scalability.
 
 ## 6.2. Project Strategies
 
