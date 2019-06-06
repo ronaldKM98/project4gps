@@ -50,13 +50,38 @@ Aspects improved from the original project
 
 ![](Architectural_Overview_Project4.png) 
 
-# 6. Design based on Non-Functional Requirements
+# 6. Design based on Non-Functional Requirements (Availability, Performance, Security)
 
-## 6.1. Architectural and Scalability patterns and best practices on the Application
+## 6.1. Architectural and Scalability patterns and best practices on the Application and System.
 
-## 6.2. Architectural and Scalability patterns and best practices on the System
+* MicroServices Oriented Architecture
+* Serverless Architecture
 
-## 6.3. Project Strategies
+* Recommended Practices from AWS: https://d36cz9buwru1tt.cloudfront.net/es/whitepapers/AWS_Cloud_Best_Practices.pdf
+
+- Decouple its components.
+- Keep the dynamic data closer to the computer structure and the static data closer to the end user.
+- Protect data in transit.
+
+* Scalability patterns
+
+- Event Driven Architecture Pattern.
+- Service Oriented Architecture Pattern 
+- Worload/demand distribution
+- Data Pull Pattern
+
+* Scalability Best Practices
+
+- Stateless session
+
+* Support from Dimensions of Scalability
+
+- Load Scalability.
+- Functionality Scalability.
+- Integration Scalability.
+- Geographic Scalability.
+
+## 6.2. Project Strategies
 
 * Identify project 1 services and how we are addressing each one.
 * Identify Non-Functional Requirements for project 4.
@@ -67,7 +92,7 @@ Aspects improved from the original project
 * Communicate services and consolidate the web application.
 * Make load  functional tests and measure performance.
 
-## 6.4. Design Decisions
+## 6.3. Design Decisions
 
 ### Design based on Microservices (Stateless)
 
@@ -111,11 +136,11 @@ Big change from project 1, in this case the project does not have a server, we h
 ### Front-end and back-end decoupled
 Static content is hosted on Amazon S3 and the Back-end is developed with Amazon Lambda.
 
-## 6.5. Tools Definition
+## 6.4. Tools Definition
 
-### 6.5.1. Amazon CloudFront: https://aws.amazon.com/cloudfront/
-### 6.5.2. Amazon S3: https://aws.amazon.com/s3/
-### 6.5.3. Amazon Cognito: https://aws.amazon.com/cognito/
-### 6.5.4. Amazon API Gateway: https://aws.amazon.com/api-gateway/
-### 6.5.5. AWS Lambda: https://aws.amazon.com/lambda/
-### 6.5.6. Amazon DynamoDB: https://aws.amazon.com/dynamodb/
+### 6.4.1. Amazon CloudFront: https://aws.amazon.com/cloudfront/
+### 6.4.2. Amazon S3: https://aws.amazon.com/s3/
+### 6.4.3. Amazon Cognito: https://aws.amazon.com/cognito/
+### 6.4.4. Amazon API Gateway: https://aws.amazon.com/api-gateway/
+### 6.4.5. AWS Lambda: https://aws.amazon.com/lambda/
+### 6.4.6. Amazon DynamoDB: https://aws.amazon.com/dynamodb/
