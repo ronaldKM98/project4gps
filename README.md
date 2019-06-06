@@ -59,27 +59,27 @@ Aspects improved from the original project
 
 ### Recommended Practices from AWS: https://d36cz9buwru1tt.cloudfront.net/es/whitepapers/AWS_Cloud_Best_Practices.pdf
 
-#### Decouple its components.
-#### Keep the dynamic data closer to the computer structure and the static data closer to the end user.
-#### Protect data in transit.
+*  Decouple its components.
+* Keep the dynamic data closer to the computer structure and the static data closer to the end user.
+* Protect data in transit.
 
 ### Scalability patterns
 
-#### Event Driven Architecture Pattern.
-#### Service Oriented Architecture Pattern 
-#### Worload/demand distribution
-#### Data Pull Pattern
+* Event Driven Architecture Pattern.
+* Service Oriented Architecture Pattern 
+* Worload/demand distribution
+* Data Pull Pattern
 
 ### Scalability Best Practices
 
-#### Stateless session
+* Stateless session
 
 ### Support from Dimensions of Scalability
 
-#### Load Scalability.
-#### Functionality Scalability.
-#### Integration Scalability.
-#### Geographic Scalability.
+* Load Scalability.
+* Functionality Scalability.
+* Integration Scalability.
+* Geographic Scalability.
 
 ## 6.2. Project Strategies
 
