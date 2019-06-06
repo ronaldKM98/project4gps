@@ -52,19 +52,64 @@ Aspects improved from the original project
 
 # 6. Design based on Non-Functional Requirements
 
-## Architectural Patterns
+## 6.1. Architectural and Scalability patterns and best practices on the Application
 
-
-
-## Scalability patterns
-
-## 6.1. Architectural patterns and best practices on the Application
-
-## 6.2. Architectural patterns and best practices on the System
+## 6.2. Architectural and Scalability patterns and best practices on the System
 
 ## 6.3. Project Strategies
 
+* Identify project 1 services and how we are addressing each one.
+* Identify Non-Functional Requirements for project 4.
+* Define the architectonic style and cloud provider.
+* Define the type of cloud technologies (SaaS, PaaS, IaaS).
+* Select Amazon Services to address each service from project 1.
+* Divide each service and develop its functionality.
+* Communicate services and consolidate the web application.
+* Make load  functional tests and measure performance.
+
 ## 6.4. Design Decisions
+
+### Design based on Microservices (Stateless)
+
+These are the Microservices of the web application.
+
+#### Lambda Functions:
+
+Each service has a Header called Authorization which need a Json Web Token (JWT) from an user who is logged in that moment.
+
+* AllRoutes [POST]: 
+Receive an Id from the user who is logged in and Retrieve all the routes that are related with that user.
+URL: https://hfvk7rmxbl.execute-api.us-east-2.amazonaws.com/dev/allroutes
+
+* GetRoute [POST]: 
+Receive an Id of a route and Retrieve all the points from that route.
+URL: https://hfvk7rmxbl.execute-api.us-east-2.amazonaws.com/dev/getroute
+
+* NewPoint [POST]: 
+Receive the parameters Latituted, Longitude, Route_Id and save those points [Latitude, Longitude] in that Route_Id.
+URL: https://hfvk7rmxbl.execute-api.us-east-2.amazonaws.com/dev/newpoint
+
+* NewRoute [POST]: 
+Receive the Route's name and save the route in the database, finally, retrieve the identifier of the route.
+URL: https://hfvk7rmxbl.execute-api.us-east-2.amazonaws.com/dev/newroute
+
+
+#### Cognito Services: 
+
+* Log in:
+Verifies the login and get tokens to authorize services.
+
+* Log out:
+Disable tokens.
+
+* Register:
+Creates an user on the Cognito User Pool and assign an unique id, besides, registers if the user confirm the account via email.
+
+### Serverless Computing
+Big change from project 1, in this case the project does not have a server, we have functions running as Lambda functions and services communicate with Amazon Cognito.
+
+### Front-end and back-end decoupled
+Static content is hosted on Amazon S3 and the Back-end is developed with Amazon Lambda.
 
 ## 6.5. Tools Definition
 
