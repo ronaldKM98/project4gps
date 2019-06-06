@@ -66,13 +66,13 @@ Aspects improved from the original project
 ### Scalability patterns
 
 * Event Driven Architecture Pattern.
-* Service Oriented Architecture Pattern 
-* Worload/demand distribution
-* Data Pull Pattern
+* Service Oriented Architecture Pattern.
+* Worload/demand distribution.
+* Data Pull Pattern.
 
 ### Scalability Best Practices
 
-* Stateless session
+* Stateless session.
 
 ### Support from Dimensions of Scalability
 
