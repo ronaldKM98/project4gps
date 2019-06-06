@@ -60,6 +60,11 @@ function trackMe() {
     document.getElementById('bWatchMe').disabled = true; //disables the button 
     var url = _config.api.invokeUrl + "/newroute";
     getToken().then(result => {
+        $.ajaxSetup({
+            headers: {
+                "Authorization": result
+            }
+        });
         req = {
             headers: {
                 idToken: result
