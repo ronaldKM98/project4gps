@@ -12,12 +12,12 @@ The app lets the user keep track of his location and then see the route he made.
 
 # 2. Roles and Responsabilities
 
-Camila: Amazon Cognito - User Pool
-Ronald: Amazon API Gateway - AWS Lambda - Amazon DynamoDB
-Ricardo: Amazon API Gateway - AWS Lambda - Amazon DynamoDB
-Alex: Amazon CloudFront - Amazon S3
+* Camila: Amazon Cognito - User Pool
+* Ronald: Amazon API Gateway - AWS Lambda - Amazon DynamoDB
+* Ricardo: Amazon API Gateway - AWS Lambda - Amazon DynamoDB
+* Alex: Amazon CloudFront - Amazon S3
 
-# 3. [Github GitHub](https://github.com/ronaldKM98/project4gps) ** Private **
+# 3. [Github](https://github.com/ronaldKM98/project4gps) ** Private **
 
 # 4. Non-Functional Requirements
 
@@ -29,6 +29,14 @@ Alex: Amazon CloudFront - Amazon S3
 
 # 5. Redesign of Project 1
 Aspects improved from the original project
+
+## Project 1 Overview
+
+![](Architectural_Overview_Project1.png) 
+
+## Project 4 Overview
+
+![](Architectural_Overview_Project4.png) 
 
 # 2. Analysis and Design
 
