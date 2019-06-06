@@ -38,16 +38,14 @@ Aspects improved from the original project
 
 ![](Architectural_Overview_Project4.png) 
 
-# 2. Analysis and Design
+# 6. Design based on Non-Functional Requirements
 
-## 2.1. Functional Requirements
-- The app must let the user Sign Up or Login.
-- The app must let the user thack his location.
-- The app must show with a route all the places he visited.
+## 6.1. Architectural patterns and best practices on the Application
 
-## 2.2. Non-Functional Requirements
-- The app must have all data private per user and device.
-- The app must not allow the user to check the route before login in.
+## 6.2. Architectural patterns and best practices on the System
 
-## 2.3. Data Model
+## 6.3. Project Strategies
 
+## 6.4. Design Decisions
+
+## 6.5. Tools Definition
