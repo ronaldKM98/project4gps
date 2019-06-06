@@ -17,7 +17,7 @@ The app lets the user keep track of his location and then see the route he made.
 * Ricardo: Amazon API Gateway - AWS Lambda - Amazon S3
 * Alex: Amazon CloudFront - Amazon DynamoDB
 
-# 3. [Github](https://github.com/ronaldKM98/project4gps) ** Private **
+# 3. [Github](https://github.com/ronaldKM98/project4gps)
 
 # 4. Non-Functional Requirements
 
