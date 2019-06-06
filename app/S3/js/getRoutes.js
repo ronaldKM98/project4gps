@@ -37,11 +37,13 @@ async function getToken() {
 }
 
 getToken().then(result => {
-    console.log("token: " + result)
-    req = {
+    $.ajaxSetup({
         headers: {
-            idToken: result
-        },
+            "Authorization": result
+        }
+    });
+
+    req = {
         id: cognitoUser.getUsername()
     };
 

@@ -43,10 +43,13 @@ var points;
  */
 function seeRoute(btnId) {
     getToken().then(result => {
-        req = {
+        $.ajaxSetup({
             headers: {
-                idToken: result
-            },
+                "Authorization": result
+            }
+        });
+
+        req = {
             id: btnId
         };
 
