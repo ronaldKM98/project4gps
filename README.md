@@ -52,6 +52,12 @@ Aspects improved from the original project
 
 # 6. Design based on Non-Functional Requirements
 
+## Architectural Patterns
+
+
+
+## Scalability patterns
+
 ## 6.1. Architectural patterns and best practices on the Application
 
 ## 6.2. Architectural patterns and best practices on the System
@@ -61,3 +67,10 @@ Aspects improved from the original project
 ## 6.4. Design Decisions
 
 ## 6.5. Tools Definition
+
+### 6.5.1. Amazon CloudFront: https://aws.amazon.com/cloudfront/
+### 6.5.2. Amazon S3: https://aws.amazon.com/s3/
+### 6.5.3. Amazon Cognito: https://aws.amazon.com/cognito/
+### 6.5.4. Amazon API Gateway: https://aws.amazon.com/api-gateway/
+### 6.5.5. AWS Lambda: https://aws.amazon.com/lambda/
+### 6.5.6. Amazon DynamoDB: https://aws.amazon.com/dynamodb/
